@@ -15,6 +15,14 @@ Player.init(
         type: DataTypes.STRING,
         allowNull: false,
       },
+    userId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
+    gameId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
     },
   {
     sequelize,

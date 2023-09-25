@@ -1,12 +1,18 @@
 [
     {
-      "name": "ZeroCool"
+      "name": "ZeroCool",
+      "userId": 1,
+      "gameId": 1
     },
     {
-      "name": "AcidBurn"
+      "name": "AcidBurn",
+      "userId": 2,
+      "gameId": 2
     },
     {
-      "name": "LordNikon"
+      "name": "LordNikon",
+      "userId": 3,
+      "gameId": 3
     }
   ]
   

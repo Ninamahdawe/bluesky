@@ -16,15 +16,21 @@ const seedDatabase = async () => {
     returning: true,
   });
 
-  for (const game of gameData) {
-    await Game.create({
-      ...game
+  for (const player of playerData) {
+    await Player.create({
+      ...player
     })
   }
 
   for (const character of characterData) {
     await Character.create({
       ...character
+    })
+  }
+
+  for (const game of gameData) {
+    await Game.create({
+      ...game
     })
   }
 
@@ -37,12 +43,6 @@ const seedDatabase = async () => {
   for (const chunk of chunkData) {
     await Chunk.create({
       ...chunk
-    })
-  }
-
-  for (const player of playerData) {
-    await Player.create({
-      ...player
     })
   }
 

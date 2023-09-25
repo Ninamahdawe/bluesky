@@ -13,7 +13,11 @@ Map.init(
     },
     gameId: {
         type: DataTypes.INTEGER,
-        allowNull: false,
+        references: {
+          model: 'games',
+          key: 'id',
+          unique: true
+        }
     },
   },
   {

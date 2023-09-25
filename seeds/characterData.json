@@ -1,14 +1,17 @@
 [
   {
     "name": "Mercy",
-    "spriteId": 1
+    "avatarId": 1,
+    "playerId": 1
   },
   {
     "name": "Tracer",
-    "spriteId": 2
+    "avatarId": 2,
+    "playerId": 2
   },
   {
     "name": "Sombra",
-    "spriteId": 3
+    "avatarId": 3,
+    "playerId": 3
   }
 ]

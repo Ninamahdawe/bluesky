@@ -15,6 +15,14 @@ Chunk.init(
         type: DataTypes.STRING,
         allowNull: false,
       },
+    mapId: {
+      type: DataTypes.INTEGER,
+      references: {
+        model: 'maps',
+        key: 'id',
+        unique: true
+      }
+    }
   },
   {
     sequelize,

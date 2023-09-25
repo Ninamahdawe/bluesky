@@ -15,8 +15,17 @@ Character.init(
       type: DataTypes.STRING,
       allowNull: false,
     },
-    spriteId: {
+    avatarId: {
         type: DataTypes.INTEGER,
+        allowNull: false,
+      },
+    playerId: {
+      type: DataTypes.INTEGER,
+      references: {
+        model: 'players',
+        key: 'id',
+        unique: true
+      }
     }
   },
   {
