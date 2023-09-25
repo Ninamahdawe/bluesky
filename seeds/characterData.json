@@ -1,0 +1,14 @@
+[
+  {
+    "name": "Mercy",
+    "sprite_id": 1
+  },
+  {
+    "name": "Tracer",
+    "sprite_id": 2
+  },
+  {
+    "name": "Sombra",
+    "sprite_id": 3
+  }
+]
