@@ -1,9 +1,9 @@
 const { Model, DataTypes } = require('sequelize');
 const sequelize = require('../config/connection');
 
-class Chunks extends Model {}
+class Chunk extends Model {}
 
-Chunks.init(
+Chunk.init(
   {
     id: {
       type: DataTypes.INTEGER,
@@ -20,8 +20,8 @@ Chunks.init(
     sequelize,
     timestamps: true,
     underscored: true,
-    modelName: 'map',
+    modelName: 'chunk',
   }
 );
 
-module.exports = Chunks;
+module.exports = Chunk;

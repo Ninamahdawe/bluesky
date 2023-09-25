@@ -2,7 +2,7 @@ const User = require('./User');
 const Game = require('./Game');
 const Character = require('./Character');
 const Map = require('./Map');
-const Chunks = require('./Chunks');
+const Chunk = require('./Chunk');
 // const Project = require('./Project');
 
 // User.hasMany(Project, {
@@ -14,4 +14,4 @@ const Chunks = require('./Chunks');
 //   foreignKey: 'user_id'
 // });
 
-module.exports = { User, Game, Character, Map, Chunks };
+module.exports = { User, Game, Character, Map, Chunk };

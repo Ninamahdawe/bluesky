@@ -11,7 +11,7 @@ Map.init(
       primaryKey: true,
       autoIncrement: true,
     },
-    game_id: {
+    gameId: {
         type: DataTypes.INTEGER,
         allowNull: false,
     },

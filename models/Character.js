@@ -15,7 +15,7 @@ Character.init(
       type: DataTypes.STRING,
       allowNull: false,
     },
-    sprite_id: {
+    spriteId: {
         type: DataTypes.INTEGER,
     }
   },
