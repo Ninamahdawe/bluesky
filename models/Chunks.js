@@ -3,7 +3,7 @@ const sequelize = require('../config/connection');
 
 class Chunks extends Model {}
 
-Map.init(
+Chunks.init(
   {
     id: {
       type: DataTypes.INTEGER,
