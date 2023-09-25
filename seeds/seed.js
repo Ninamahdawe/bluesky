@@ -1,11 +1,12 @@
 const sequelize = require('../config/connection');
-const { User, Game, Character, Map, Chunk } = require('../models');
+const { User, Game, Character, Map, Chunk, Player } = require('../models');
 
 const userData = require('./userData.json');
 const gameData = require('./gameData.json');
 const characterData = require('./characterData.json');
 const mapData = require('./mapData.json');
 const chunkData = require('./chunkData.json');
+const playerData = require('./playerData.json');
 
 const seedDatabase = async () => {
   await sequelize.sync({ force: true });
@@ -36,6 +37,12 @@ const seedDatabase = async () => {
   for (const chunk of chunkData) {
     await Chunk.create({
       ...chunk
+    })
+  }
+
+  for (const player of playerData) {
+    await Player.create({
+      ...player
     })
   }
 

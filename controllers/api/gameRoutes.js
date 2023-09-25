@@ -11,4 +11,13 @@ router.get('/', async (req, res) => {
   }
 });
 
+router.get('/:id', async (req, res) => {
+  try {
+    const gameData = await Game.findByPk(req.params.id);
+    res.json(gameData);
+  } catch (err) {
+    res.status(400).json(err);
+  }
+});
+
 module.exports = router;
