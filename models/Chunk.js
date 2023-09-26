@@ -22,7 +22,39 @@ Chunk.init(
         key: 'id',
         unique: true
       }
-    }
+    },
+    up: {
+      type: DataTypes.INTEGER,
+      references: {
+        model: 'chunks',
+        key: 'id',
+        unique: true
+      }
+    },
+    right: {
+      type: DataTypes.INTEGER,
+      references: {
+        model: 'chunks',
+        key: 'id',
+        unique: true
+      }
+    },
+    down: {
+      type: DataTypes.INTEGER,
+      references: {
+        model: 'chunks',
+        key: 'id',
+        unique: true
+      }
+    },
+    left: {
+      type: DataTypes.INTEGER,
+      references: {
+        model: 'chunks',
+        key: 'id',
+        unique: true
+      }
+    },
   },
   {
     sequelize,
