@@ -4,13 +4,11 @@ const gameRoutes = require('./gameRoutes');
 const mapRoutes = require('./mapRoutes');
 const chunkRoutes = require('./chunkRoutes');
 const characterRoutes = require('./characterRoutes');
-// // const projectRoutes = require('./projectRoutes');
 
 router.use('/users', userRoutes);
-router.use('/game', gameRoutes);
-router.use('/map', mapRoutes);
-router.use('/chunk', chunkRoutes);
-router.use('/character', characterRoutes);
-// // router.use('/projects', projectRoutes);
+router.use('/games', gameRoutes);
+router.use('/maps', mapRoutes);
+router.use('/chunks', chunkRoutes);
+router.use('/characters', characterRoutes);
 
 module.exports = router;
