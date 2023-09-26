@@ -19,10 +19,10 @@ Character.init(
         type: DataTypes.INTEGER,
         allowNull: false,
       },
-    playerId: {
+    userId: {
       type: DataTypes.INTEGER,
       references: {
-        model: 'players',
+        model: 'user',
         key: 'id',
         unique: true
       }
