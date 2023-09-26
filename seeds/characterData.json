@@ -2,16 +2,21 @@
   {
     "name": "Mercy",
     "avatarId": 1,
-    "playerId": 1
+    "userId": 1
   },
   {
     "name": "Tracer",
     "avatarId": 2,
-    "playerId": 2
+    "userId": 2
   },
   {
     "name": "Sombra",
     "avatarId": 3,
-    "playerId": 3
+    "userId": 3
+  },
+  {
+    "name": "Hanzo",
+    "avatarId": 4,
+    "userId": 1
   }
 ]

@@ -21,6 +21,7 @@ Character.init(
       },
     userId: {
       type: DataTypes.INTEGER,
+      allowNull: false,
       references: {
         model: 'user',
         key: 'id',
