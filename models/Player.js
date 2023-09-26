@@ -17,11 +17,20 @@ Player.init(
       },
     userId: {
       type: DataTypes.INTEGER,
-      allowNull: false,
+      references: {
+        model: 'user',
+        key: 'id',
+        unique: true
+      }
     },
     gameId: {
       type: DataTypes.INTEGER,
       allowNull: false,
+      references: {
+        model: 'games',
+        key: 'id',
+        unique: true
+      }
     },
     },
   {
