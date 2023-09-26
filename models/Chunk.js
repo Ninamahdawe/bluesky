@@ -23,7 +23,7 @@ Chunk.init(
         unique: true
       }
     },
-    up: {
+    up_chunk_id: {
       type: DataTypes.INTEGER,
       references: {
         model: 'chunks',
@@ -31,7 +31,7 @@ Chunk.init(
         unique: true
       }
     },
-    right: {
+    right_chunk_id: {
       type: DataTypes.INTEGER,
       references: {
         model: 'chunks',
@@ -39,7 +39,7 @@ Chunk.init(
         unique: true
       }
     },
-    down: {
+    down_chunk_id: {
       type: DataTypes.INTEGER,
       references: {
         model: 'chunks',
@@ -47,7 +47,7 @@ Chunk.init(
         unique: true
       }
     },
-    left: {
+    left_chunk_id: {
       type: DataTypes.INTEGER,
       references: {
         model: 'chunks',
