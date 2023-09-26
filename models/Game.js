@@ -23,6 +23,14 @@ Game.init(
         unique: true,
       }
     },
+    mapId: {
+      type: DataTypes.INTEGER,
+      references: {
+        model: 'maps',
+        key: 'id',
+        unique: true,
+      }
+    },
   },
   {
     sequelize,
