@@ -21,4 +21,10 @@ User.hasMany(Character, {
     foreignKey: 'userId',
 })
 
+// 1 User to many Games
+User.hasMany(Game, {
+    foreignKey: 'gameId',
+})
+Game.belongsTo(User);
+
 module.exports = { User, Game, Character, Map, Chunk };

@@ -1,0 +1,16 @@
+<div class="text-center">
+  <h2>{{game.name}}</h2>
+  <p>Emoji</p>
+  <p>Description</p>
+  <p>Created by you on a {{game.createdAt}}.</p>
+  <p>
+    <span for="img" aria-label="money">💲</span>
+    <span class="dollar-amount">funding</span>
+    needed
+  </p>
+  <p>
+    <button id="btn-play" data-id="{{game.id}}" class="btn btn-primary">Play this game!</button>
+  </p>
+</div>
+
+<script src="/js/game.js"></script>
