@@ -6,19 +6,19 @@ const Chunk = require('./Chunk');
 
 // 1 Map to Many Chunks
 Map.hasMany(Chunk, {
-    foreignKey: 'map_id',
+    foreignKey: 'mapId',
 });
 Chunk.belongsTo(Map);
 
 // 1 Game to 1 Map
 Game.hasOne(Map, {
-    foreignKey: 'game_id',
+    foreignKey: 'gameId',
 });
 Map.belongsTo(Game);
 
 // 1 User to many Characters
 User.hasMany(Character, {
-    foreignKey: '',
+    foreignKey: 'userId',
 })
 
 // 1 Player to Many Characters

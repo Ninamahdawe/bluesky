@@ -20,6 +20,30 @@ router.get('/:id', async (req, res) => {
   }
 });
 
+router.put('/:id', async (req, res) => {
+  try {
+    const gameData = await Game.update(
+      {
+        mapId: req.body.mapId,
+      },
+      {
+        where: {
+          id: req.params.id,
+        },
+      }
+    );
+
+    if (!gameData) {
+      res.status(404).json({ message: 'No game found with this id!' });
+      return;
+    }
+
+    res.status(200).json(gameData);
+  } catch (err) {
+    res.status(500).json(err);
+  }
+})
+
 router.post('/', async (req, res) => {
   try {
     const gameData = await Game.create(req.body);
