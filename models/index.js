@@ -1,14 +1,30 @@
 const User = require('./User');
-const Game = require('./game')
-// const Project = require('./Project');
+const Game = require('./Game');
+const Character = require('./Character');
+const Map = require('./Map');
+const Chunk = require('./Chunk');
 
-// User.hasMany(Project, {
-//   foreignKey: 'user_id',
-//   onDelete: 'CASCADE'
-// });
+// 1 Map to Many Chunks
+Map.hasMany(Chunk, {
+    foreignKey: 'mapId',
+});
+Chunk.belongsTo(Map);
 
-// Project.belongsTo(User, {
-//   foreignKey: 'user_id'
-// });
+// 1 Game to 1 Map
+Game.hasOne(Map, {
+    foreignKey: 'gameId',
+});
+Map.belongsTo(Game);
 
-module.exports = { User, Game };
+// 1 User to many Characters
+User.hasMany(Character, {
+    foreignKey: 'userId',
+})
+
+// 1 User to many Games
+User.hasMany(Game, {
+    foreignKey: 'gameId',
+})
+Game.belongsTo(User);
+
+module.exports = { User, Game, Character, Map, Chunk };
