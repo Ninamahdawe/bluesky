@@ -1,0 +1,16 @@
+<div class="text-center">
+  <h2>{{character.name}}</h2>
+  <p>Emoji</p>
+  <p>Description</p>
+  <p>Created by you on a {{character.createdAt}}.</p>
+  <p>
+    <span for="img" aria-label="money">💲</span>
+    <span class="dollar-amount">funding</span>
+    needed
+  </p>
+  <p>
+    <button id="btn-char" data-id="{{character.id}}" class="btn btn-primary">Use this character!</button>
+  </p>
+</div>
+
+<script src="/js/character.js"></script>

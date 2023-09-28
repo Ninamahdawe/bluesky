@@ -1,14 +1,16 @@
 const newFormHandler = async (event) => {
   event.preventDefault();
 
-  const name = document.querySelector('#project-name').value.trim();
-  const needed_funding = document.querySelector('#project-funding').value.trim();
-  const description = document.querySelector('#project-desc').value.trim();
+  const name = document.querySelector('#game-name').value.trim();
+  // TODO: hardcoding userId, replace with correct value
+  const  userId = 4;
+  const description = document.querySelector('#game-desc').value.trim();
 
-  if (name && needed_funding && description) {
-    const response = await fetch(`/api/projects`, {
+  if (name && description) {
+    const response = await fetch(`/api/games`, {
       method: 'POST',
-      body: JSON.stringify({ name, needed_funding, description }),
+      // TODO: need to add description to body not just name
+      body: JSON.stringify({ name, userId }),
       headers: {
         'Content-Type': 'application/json',
       },
@@ -26,7 +28,7 @@ const delButtonHandler = async (event) => {
   if (event.target.hasAttribute('data-id')) {
     const id = event.target.getAttribute('data-id');
 
-    const response = await fetch(`/api/projects/${id}`, {
+    const response = await fetch(`/api/games/${id}`, {
       method: 'DELETE',
     });
 
