@@ -12,7 +12,7 @@ Chunk.init(
       autoIncrement: true,
     },
     grid: {
-        type: DataTypes.STRING,
+        type: DataTypes.TEXT,
         allowNull: false,
       },
     mapId: {

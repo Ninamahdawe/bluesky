@@ -1,205 +1,360 @@
-// simple rpg style walk and talk
+class Game {
 
-kaboom({
-	background: [74, 48, 82],
-})
+	constructor() {
+		this.playerSpeed = 230;
+		this.enemySpeed = 160;
+		this.bulletSpeed = 800;
+		this.score = 0;
+		this.sceneNames = ['chunk', 'game-over'];
+		this.scenes = [];
+		this.args = null;
+		this.width = 800;
+		this.height = 608;
 
-loadSprite("bag", "/sprites/bag.png")
-loadSprite("ghosty", "/sprites/ghosty.png")
-loadSprite("grass", "/sprites/grass.png")
-loadSprite("steel", "/sprites/steel.png")
-loadSprite("door", "/sprites/door.png")
-loadSprite("key", "/sprites/key.png")
-loadSprite("bean", "/sprites/bean.png")
+		kaboom({
+			width: this.width,
+			height: this.height,
+			background: [33, 54, 7],
+			debug: false
+		});
 
-scene("main", (levelIdx) => {
+		this.loadAssets();
 
-	const SPEED = 320
-
-	// character dialog data
-	const characters = {
-		"a": {
-			sprite: "bag",
-			msg: "Hi Bean! You should get that key!",
-		},
-		"b": {
-			sprite: "ghosty",
-			msg: "Who are you? You can see me??",
-		},
+		for (let i = 0; i < this.sceneNames.length; i++) {
+			this.addScene(i);
+		}
 	}
 
-	// level layouts
-	const levels = [
-		[
-			"===|====",
-			"=      =",
-			"= $    =",
-			"=    a =",
-			"=      =",
-			"=   @  =",
-			"========",
-		],
-		[
-			"--------",
-			"-      -",
-			"-   $  -",
-			"|      -",
-			"-    b -",
-			"-  @   -",
-			"--------",
-		],
-	]
+	loadAssets() {
+		loadSpriteAtlas('sprites/grass-atlas.png', {
+			'grass': {
+				'x': 0,
+				'y': 0,
+				'width': 320,
+				'height': 256,
+				'sliceX': 10,
+				'sliceY': 8
+			}
+		});
+		loadSpriteAtlas('sprites/free_character_1-3.png', {
+			'character1': {
+				'x': 0,
+				'y': 0,
+				'width': 144,
+				'height': 80,
+				'sliceX': 9,
+				'sliceY': 4,
+				'anims': {
+					'walk_down': {
+						'from': 0,
+						'to': 2,
+						'loop': true,
+						'speed': 3
+					},
+					'walk_left': {
+						'from': 9,
+						'to': 11,
+						'loop': true,
+						'speed': 3
+					},
+					'walk_right': {
+						'from': 18,
+						'to': 20,
+						'loop': true,
+						'speed': 3
+					},
+					'walk_up': {
+						'from': 27,
+						'to': 29,
+						'loop': true,
+						'speed': 3
+					}
+				}
+			},
+			'character2': {
+				'x': 0,
+				'y': 0,
+				'width': 144,
+				'height': 80,
+				'sliceX': 9,
+				'sliceY': 4,
+				'anims': {
+					'walk_down': {
+						'from': 3,
+						'to': 5,
+						'loop': true,
+						'speed': 3
+					},
+					'walk_left': {
+						'from': 12,
+						'to': 14,
+						'loop': true,
+						'speed': 3
+					},
+					'walk_right': {
+						'from': 21,
+						'to': 23,
+						'loop': true,
+						'speed': 3
+					},
+					'walk_up': {
+						'from': 27,
+						'to': 29,
+						'loop': true,
+						'speed': 3
+					}
+				}
+			}
+		});
+		loadSprite('steel', '/sprites/steel.png');
+		loadSprite('key', '/sprites/key.png');
+		loadSprite('well', '/sprites/well.png');
+	}
 
-	const level = addLevel(levels[levelIdx], {
-		tileWidth: 64,
-		tileHeight: 64,
-		pos: vec2(64, 64),
-		tiles: {
-			"=": () => [
-				sprite("grass"),
-				area(),
-				body({ isStatic: true }),
-				anchor("center"),
-			],
-			"-": () => [
-				sprite("steel"),
-				area(),
-				body({ isStatic: true }),
-				anchor("center"),
-			],
-			"$": () => [
-				sprite("key"),
-				area(),
-				anchor("center"),
-				"key",
-			],
-			"@": () => [
-				sprite("bean"),
-				area(),
-				body(),
-				anchor("center"),
-				"player",
-			],
-			"|": () => [
-				sprite("door"),
-				area(),
-				body({ isStatic: true }),
-				anchor("center"),
-				"door",
-			],
-		},
-		// any() is a special function that gets called everytime there's a
-		// symbole not defined above and is supposed to return what that symbol
-		// means
-		wildcardTile(ch) {
-			const char = characters[ch]
-			if (char) {
-				return [
-					sprite(char.sprite),
+	addKey() {
+		const newPosition = {
+			x: rand(64, width() - 64),
+			y: rand(64, height() - 64)
+		};
+		this.key = add([
+			sprite('key'),
+			pos(newPosition.x, newPosition.y),
+			anchor('center'),
+			area(),
+			scale(1 / 2),
+			'key'
+		]);
+	}
+
+	addScene(sceneIndex) {
+		switch (sceneIndex) {
+			case 0: {
+				this.scenes.push(scene(this.sceneNames[sceneIndex], async () => {
+					await this.addChunkSceneLevels();
+					this.addPlayer();
+					this.setPlayerKeyEvents();
+					this.setPlayerCollisions();
+					this.addEnemy();
+					this.setEnemyStates();
+					this.setEnemyOnUpdateEvents();
+					this.addKey();
+					this.addScoreBoard();
+					this.setOnScoreBoardEvents();
+				}));
+				break;
+			}
+			case 1: {
+				this.scenes.push(scene(this.sceneNames[sceneIndex], () => {
+					add([
+						text('Game Over'),
+						pos(center()),
+						anchor('center')
+					]);
+					this.addScoreBoard();
+				}));
+			}
+		}
+	}
+
+	async addChunkSceneLevels() {
+		const response = await fetch('/api/chunks/1');
+		const chunk = await response.json();
+		const grid = JSON.parse(chunk.grid);
+
+		addLevel(grid[0], {
+			tileWidth: 32,
+			tileHeight: 32,
+			pos: vec2(0, 0),
+			tiles: {
+				' ': () => [
+					sprite('grass', { frame: ~~rand(0, 8) }),
+					anchor('topleft')
+				],
+				'=': () => [
+					sprite('steel'),
+					anchor('topleft'),
 					area(),
 					body({ isStatic: true }),
-					anchor("center"),
-					"character",
-					{ msg: char.msg },
+					scale(1 / 2)
 				]
 			}
-		},
-	})
+		});
 
-	// get the player game obj by tag
-	const player = level.get("player")[0]
-
-	function addDialog() {
-		const h = 160
-		const pad = 16
-		const bg = add([
-			pos(0, height() - h),
-			rect(width(), h),
-			color(0, 0, 0),
-			z(100),
-		])
-		const txt = add([
-			text("", {
-				width: width(),
-			}),
-			pos(0 + pad, height() - h + pad),
-			z(100),
-		])
-		bg.hidden = true
-		txt.hidden = true
-		return {
-			say(t) {
-				txt.text = t
-				bg.hidden = false
-				txt.hidden = false
-			},
-			dismiss() {
-				if (!this.active()) {
-					return
-				}
-				txt.text = ""
-				bg.hidden = true
-				txt.hidden = true
-			},
-			active() {
-				return !bg.hidden
-			},
-			destroy() {
-				bg.destroy()
-				txt.destroy()
-			},
-		}
-	}
-
-	let hasKey = false
-	const dialog = addDialog()
-
-	player.onCollide("key", (key) => {
-		destroy(key)
-		hasKey = true
-	})
-
-	player.onCollide("door", () => {
-		if (hasKey) {
-			if (levelIdx + 1 < levels.length) {
-				go("main", levelIdx + 1)
-			} else {
-				go("win")
+		addLevel(grid[1], {
+			tileWidth: 32,
+			tileHeight: 32,
+			pos: vec2(0, 0),
+			tiles: {
+				'w': () => [
+					sprite('well'),
+					anchor('center'),
+					area(),
+					body({ isStatic: true }),
+					'well'
+				]
 			}
-		} else {
-			dialog.say("you got no key!")
+		});
+
+	}
+
+	addPlayer() {
+		this.player = add([
+			sprite('character1', { anim: 'walk_down' }),
+			pos(width() / 2, height() / 2),
+			area(),
+			body(),
+			scale(3),
+			anchor('center')
+		]);
+	}
+
+	addEnemy() {
+		this.enemy = add([
+			sprite('character2', { anim: 'walk_down' }),
+			pos(10, 10),
+			area(),
+			body(),
+			scale(3),
+			state('move', ['idle', 'attack', 'move'])
+		]);
+	}
+
+	setEnemyStates() {
+		this.enemy.onStateEnter('idle', async () => {
+			await wait(0.5);
+			this.enemy.enterState('attack');
+		});
+
+		this.enemy.onStateEnter('attack', async () => {
+
+			if (this.player.exists()) {
+
+				const dir = this.player.pos.sub(this.enemy.pos).unit();
+
+				add([
+					pos(this.enemy.pos),
+					move(dir, this.bulletSpeed),
+					rect(12, 12),
+					area(),
+					offscreen({ destroy: true }),
+					anchor('center'),
+					color(BLUE),
+					'bullet'
+				]);
+			}
+
+			await wait(1);
+			this.enemy.enterState('move');
+
+		});
+
+		this.enemy.onStateEnter('move', async () => {
+			await wait(2);
+			this.enemy.enterState('idle');
+		});
+
+	}
+
+	setEnemyOnUpdateEvents() {
+		this.enemy.onStateUpdate('move', () => {
+			if (!this.player.exists()) return;
+			const dir = this.player.pos.sub(this.enemy.pos).unit();
+			this.enemy.move(dir.scale(this.enemySpeed));
+		});
+	}
+
+	setPlayerCollisions() {
+		const waitTime = 3;
+
+		this.player.onCollide('bullet', (item) => {
+			destroy(item);
+			destroy(this.player);
+			addKaboom(item.pos);
+			wait(waitTime, () => {
+				go(game.sceneNames[1], game.args);
+			});
+		});
+
+		this.player.onCollide('key', (item) => {
+			destroy(item);
+			this.score += 10;
+			wait(3, () => {
+				this.addKey();
+			});
+		});
+	}
+
+	addScoreBoard() {
+		this.scoreboard = add([
+			text(`Score: ${this.score.toString()}`),
+			pos(5, 5)
+		]);
+	}
+
+	setOnScoreBoardEvents() {
+		onUpdate(() => {
+			if (!this.player.exists()) {
+				return;
+			}
+			this.scoreboard.text = `Score: ${this.score.toString()}`;
+		});
+	}
+
+	setPlayerKeyEvents() {
+
+		const keys = ['up', 'right', 'down', 'left'];
+
+		const playerKeyData = [];
+
+		for (const key of keys) {
+			playerKeyData.push({
+				key: key,
+				animation: `walk_${key}`
+			}
+			);
 		}
-	})
 
-	// talk on touch
-	player.onCollide("character", (ch) => {
-		dialog.say(ch.msg)
-	})
+		for (const keyData of playerKeyData) {
+			onKeyPress(keyData.key, () => {
+				this.player.play(keyData.animation);
+			});
 
-	const dirs = {
-		"left": LEFT,
-		"right": RIGHT,
-		"up": UP,
-		"down": DOWN,
+			let direction;
+			let speed;
+
+			switch (keyData.key) {
+				case 'up': {
+					direction = 0;
+					speed = -this.playerSpeed;
+					break;
+				}
+				case 'right': {
+					direction = this.playerSpeed;
+					speed = 0;
+					break;
+				}
+				case 'down': {
+					direction = 0;
+					speed = this.playerSpeed;
+					break;
+				}
+				case 'left': {
+					direction = -this.playerSpeed;
+					speed = 0;
+					break;
+				}
+			}
+
+			onKeyDown(keyData.key, () => {
+				this.player.move(direction, speed);
+			});
+		}
 	}
+}
 
-	for (const dir in dirs) {
-		onKeyPress(dir, () => {
-			dialog.dismiss()
-		})
-		onKeyDown(dir, () => {
-			player.move(dirs[dir].scale(SPEED))
-		})
-	}
+function startGame() {
+	go(game.sceneNames[0], game.args);
+}
 
-})
-
-scene("win", () => {
-	add([
-		text("You Win!"),
-		pos(width() / 2, height() / 2),
-		anchor("center"),
-	])
-})
-
-go("main", 0)
+const game = new Game();
+startGame();
