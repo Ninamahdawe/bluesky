@@ -159,7 +159,9 @@ class Game {
 	async addChunkSceneLevels() {
 		const response = await fetch('/api/chunks/1');
 		const chunk = await response.json();
+		console.log(chunk);
 		const grid = JSON.parse(chunk.grid);
+
 
 		addLevel(grid[0], {
 			tileWidth: 32,
