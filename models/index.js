@@ -23,7 +23,7 @@ User.hasMany(Character, {
 
 // 1 User to many Games
 User.hasMany(Game, {
-    foreignKey: 'gameId',
+    foreignKey: 'userId',
 })
 Game.belongsTo(User);
 

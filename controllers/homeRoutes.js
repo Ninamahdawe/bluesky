@@ -20,7 +20,7 @@ router.get('/', async (req, res) => {
     // Pass serialized data and session flag into template
     res.render('homepage', {
       games,
-      // logged_in: req.session.logged_in
+      logged_in: req.session.logged_in,
     });
   } catch (err) {
     res.status(500).json(err);
@@ -30,12 +30,11 @@ router.get('/', async (req, res) => {
 router.get('/game/:id', async (req, res) => {
   try {
     const gameData = await Game.findByPk(req.params.id);
-
     const game = gameData.get({ plain: true });
 
     res.render('game', {
       game,
-      // logged_in: req.session.logged_in
+      logged_in: req.session.logged_in
     });
   } catch (err) {
     res.status(500).json(err);
@@ -46,7 +45,7 @@ router.get('/game/:id', async (req, res) => {
 router.get('/profile', withAuth, async (req, res) => {
   try {
     // Find the logged in user based on the session ID
-    const userData = await User.findByPk(req.session.user_id, {
+    const userData = await User.findByPk(req.session.userId, {
       attributes: { exclude: ['password'] },
       include: [{ model: Game }],
     });

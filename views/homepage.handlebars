@@ -5,7 +5,11 @@
     <h2>
       <!-- Call helper function with triple brackets to render the emoji span as HTML -->
       {{{get_emoji}}}
-      <a href="/game/{{game.id}}">{{game.name}}</a>
+      {{#if logged_in}}
+        <a href="/game/{{game.id}}">{{game.name}}</a>
+      {{else}}
+        {{game.name}}
+      {{/if}}
     </h2>
     <p>
       <span for="img" aria-label="money">💲</span>
