@@ -48,4 +48,5 @@ To tailor the game app to your preferences, create a configuration file (e.g., c
 ## Github
 
 https://github.com/Ninamahdawe
-
+## deployed page
+https://powerful-shore-38685-77e8b8790e58.herokuapp.com/
